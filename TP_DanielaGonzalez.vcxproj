@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\collisionManager.cpp" />
+    <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\GameObjects\ball.cpp" />
     <ClCompile Include="src\GameObjects\bricks.cpp" />
     <ClCompile Include="src\GameObjects\paddle.cpp" />
@@ -28,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\collisionManager.h" />
+    <ClInclude Include="src\game.h" />
     <ClInclude Include="src\GameObjects\ball.h" />
     <ClInclude Include="src\GameObjects\bricks.h" />
     <ClInclude Include="src\GameObjects\paddle.h" />
