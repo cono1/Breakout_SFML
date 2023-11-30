@@ -4,7 +4,7 @@ namespace game
 {
 void initBrick(Brick brick[quantY][quantX])
 {
-	int firstBrickYPosition = 10;
+	int firstBrickYPosition = 80;
 	int space = 10;
 
 	for (int i = 0; i < quantY; i++)

@@ -8,17 +8,30 @@
 #include "GameObjects/paddle.h"
 
 #include "collisionManager.h"
+#include "lifeManager.h"
 
 using namespace game;
 
 extern int offset;
 static int activeBricks = quantX * quantY;
 
+void updateLife(int& life, Ball& ball, Paddle paddle, int wHeight);
+
 int main()
 {
     Ball ball;
     Brick bricks[quantY][quantX];
     Paddle paddle;
+    int lifeText = 3;
+
+    sf::Text text;
+    sf::Font font;
+    if (!font.loadFromFile("res/PermanentMarker-Regular.ttf"))
+        std::cout << "Failed to load font\n";
+    text.setFont(font);
+    text.setPosition(10, 10);
+    text.setCharacterSize(40);
+    text.setFillColor(sf::Color::White);
 
     const int windowWidth = 1024;
     const int windowHeight = 768;
@@ -36,6 +49,8 @@ int main()
         sf::Time dt = clock.restart();
         updateBall(ball, dt, windowWidth, windowHeight);
         updatePaddle(paddle, windowWidth, dt);
+        updateLife(lifeText, ball, paddle, windowHeight);
+        text.setString("Lives: "+ std::to_string(lifeText));
 
         if (getBallToPaddCollision(ball, paddle))
         {
@@ -63,10 +78,21 @@ int main()
                 window.draw(bricks[i][j].rect);
             }
         }
+
         window.draw(paddle.sprite);
         window.draw(ball.sprite);
+        window.draw(text);
         window.display();
     }
 
     return 0;    
+}
+
+void updateLife(int& life, Ball& ball, Paddle paddle, int wHeight)
+{
+    if (ball.y >= wHeight)
+    {
+        restartBall(ball, paddle.x, wHeight / 2);
+        decreasePlayerLife(life);
+    }
 }
