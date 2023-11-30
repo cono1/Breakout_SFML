@@ -1,14 +1,25 @@
 #include"SFML/Graphics.hpp"
+#include "SFML/System/Clock.hpp"
+
+#include "Ball/ball.h"
+
+using namespace game;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    Ball ball;
+
+    sf::RenderWindow window(sf::VideoMode(1024, 768), "Daniela Gonzalez");
+    sf::Clock clock;
+
+    initBall(ball, 800, 500);
 
     while (window.isOpen())
     {
+        sf::Time dt = clock.restart();
+        updateBall(ball, dt);
         sf::Event event;
+
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
@@ -16,7 +27,7 @@ int main()
         }
 
         window.clear();
-        window.draw(shape);
+        window.draw(ball.sprite);
         window.display();
     }
 
