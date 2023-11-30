@@ -18,13 +18,19 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Archivos de recursos</Filter>
     </ClCompile>
-    <ClCompile Include="src\Ball\ball.cpp">
-      <Filter>Archivos de recursos</Filter>
+    <ClCompile Include="src\GameObjects\ball.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObjects\bricks.cpp">
+      <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Ball\ball.h">
-      <Filter>Archivos de recursos</Filter>
+    <ClInclude Include="src\GameObjects\ball.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObjects\bricks.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

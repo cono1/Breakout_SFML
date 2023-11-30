@@ -11,7 +11,6 @@ namespace game
 {
 void initBall(Ball& ball, float x, float y)
 {
-	srand(time(NULL));
 	ball.dirX = static_cast<float>(rand() % 300 - 150);
 	ball.dirY = 100.f;
 	ball.x = x;
