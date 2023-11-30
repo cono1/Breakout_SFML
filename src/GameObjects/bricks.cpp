@@ -1,8 +1,5 @@
 #include "bricks.h"
 
-#include <time.h>
-#include <iostream>
-
 namespace game
 {
 void initBrick(Brick brick[quantY][quantX])

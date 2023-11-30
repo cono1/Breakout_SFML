@@ -1,7 +1,6 @@
 #include "ball.h"
 
 #include <iostream>
-#include <time.h>
 #include <cmath>
 #include <cstdlib>
 

@@ -3,6 +3,7 @@
 
 #include "GameObjects/ball.h"
 #include "GameObjects/bricks.h"
+#include "GameObjects/paddle.h"
 
 using namespace game;
 
@@ -10,18 +11,24 @@ int main()
 {
     Ball ball;
     Brick bricks[quantY][quantX];
+    Paddle paddle;
 
-    sf::RenderWindow window(sf::VideoMode(1024, 768), "Daniela Gonzalez");
+    const int windowWidth = 1024;
+    const int windowHeight = 768;
+
+    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "Daniela Gonzalez");
     sf::Clock clock;
 
     srand(time(NULL));
     initBall(ball, 800, 500);
     initBrick(bricks);
+    initPaddle(paddle, windowWidth , windowHeight);
 
     while (window.isOpen())
     {
         sf::Time dt = clock.restart();
         updateBall(ball, dt);
+        updatePaddle(paddle, windowWidth, dt);
         sf::Event event;
 
         while (window.pollEvent(event))
@@ -32,7 +39,6 @@ int main()
 
         
         window.clear();
-        window.draw(ball.sprite);
         for (int i = 0; i < quantY; i++)
         {
             for (int j = 0; j < quantX; j++)
@@ -40,6 +46,8 @@ int main()
                 window.draw(bricks[i][j].rect);
             }
         }
+        window.draw(paddle.sprite);
+        window.draw(ball.sprite);
         window.display();
     }
 
