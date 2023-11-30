@@ -18,7 +18,6 @@ struct Ball
 };
 
 void initBall(Ball& ball, float x, float y);
-void updateBall(Ball& ball, sf::Time dt);
-void drawBall(Ball ball);
+void updateBall(Ball& ball, sf::Time dt, int wWidth, int wHeight);
 void restartBall(Ball& ball, float x, float y);
 }

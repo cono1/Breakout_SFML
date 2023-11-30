@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include"SFML/Graphics.hpp"
 #include "SFML/System/Clock.hpp"
 
@@ -5,7 +7,12 @@
 #include "GameObjects/bricks.h"
 #include "GameObjects/paddle.h"
 
+#include "collisionManager.h"
+
 using namespace game;
+
+extern int offset;
+static int activeBricks = quantX * quantY;
 
 int main()
 {
@@ -27,8 +34,18 @@ int main()
     while (window.isOpen())
     {
         sf::Time dt = clock.restart();
-        updateBall(ball, dt);
+        updateBall(ball, dt, windowWidth, windowHeight);
         updatePaddle(paddle, windowWidth, dt);
+
+        if (getBallToPaddCollision(ball, paddle))
+        {
+            ball.y = paddle.y - paddle.sprite.getGlobalBounds().height - offset;
+            ball.dirY *= -1;
+            ball.speedX = (ball.x - paddle.x) / (paddle.sprite.getGlobalBounds().width) * 5;
+        }
+
+        checkBallToBrickCollision(ball, bricks, activeBricks);
+
         sf::Event event;
 
         while (window.pollEvent(event))

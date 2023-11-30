@@ -40,6 +40,7 @@ void deactiveBrick(Brick brick[quantY][quantX], int posX, int posY, int& activeB
 	{
 		brick[posX][posY].width = 0;
 		brick[posX][posY].height = 0;
+		brick[posX][posY].rect.setSize(sf::Vector2f(brick[posX][posY].width, brick[posX][posY].height));
 	}
 }
 
