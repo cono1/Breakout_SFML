@@ -31,10 +31,10 @@ void loop()
     const int windowWidth = 1024;
     const int windowHeight = 768;
 
-    sf::Text lifeText;
     sf::Font font;
     if (!font.loadFromFile("res/PermanentMarker-Regular.ttf"))
         std::cout << "Failed to load font\n";
+    sf::Text lifeText;
     lifeText.setFont(font);
     lifeText.setPosition(10, 10);
     lifeText.setCharacterSize(40);
@@ -53,8 +53,15 @@ void loop()
     loseText.setCharacterSize(50);
     loseText.setFillColor(sf::Color::White);
 
+    sf::Text creditsText;
+    creditsText.setString("dev: Daniela Gonzalez");
+    creditsText.setFont(font);
+    creditsText.setPosition(windowWidth - 250, 10);
+    creditsText.setCharacterSize(20);
+    creditsText.setFillColor(sf::Color::Magenta);
 
-    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "Daniela Gonzalez");
+
+    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "BREAKOUT-Daniela Gonzalez");
     sf::Clock clock;
 
     srand(time(NULL));
@@ -96,6 +103,7 @@ void loop()
 
 
         window.clear();
+        window.draw(creditsText);
         for (int i = 0; i < quantY; i++)
         {
             for (int j = 0; j < quantX; j++)
