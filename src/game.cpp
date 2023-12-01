@@ -108,8 +108,6 @@ void loop()
         switch (currentScreen)
         {
         case MENU:
-            std::cout << "Menu\n";
-
             for (int i = 0; i < quantMenuRects; i++)
             {
                 if (checkMenuClick(window, menuRect[i], menuRect[i].initWidth, menuRect[i].maxWidth) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -207,14 +205,12 @@ void loop()
         }
         window.display();
     }
-
-
 }
 
 void initMenuRect()
 {
     int spaceBetweenRects = 20;
-    int firstRectYPosition = 120;
+    int firstRectYPosition = 180;
 
     for (int i = 0; i < quantMenuRects; i++)
     {
@@ -232,17 +228,22 @@ void initMenuRect()
 
 void printMenu(sf::RenderWindow& window, sf::Font font)
 {
+    sf::Text title;
+    title.setString("BREAKOUT");
+    title.setPosition(window.getSize().x / 3, 10);
+    title.setFont(font);
+    title.setCharacterSize(80);
+    title.setFillColor(sf::Color::White);
+    window.draw(title);
+
     sf::Text text1;
     text1.setFont(font);
     text1.setCharacterSize(40);
     text1.setFillColor(sf::Color::White);
-            
+         
     for (int i = 0; i < quantMenuRects; i++)
     {
         window.draw(menuRect[i].rect);
-
-        //int xOffsetText = static_cast<int>(menuRect[i].x) - static_cast<int>(slGetTextWidth(word.c_str()) / 2);
-        //int yOffsetText = static_cast<int>((menuRect[i].height - fontSize) / 2);
         if (i == PLAY)
         {  
             text1.setString("PLAY");
