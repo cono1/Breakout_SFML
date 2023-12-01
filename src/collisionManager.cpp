@@ -10,7 +10,7 @@ bool getBallToPaddCollision(Ball& ball, Paddle paddle)
             paddle.y <= ball.y + ball.sprite.getGlobalBounds().height);
 }
 
-void checkBallToBrickCollision(Ball& ball, Brick brick[quantY][quantX], int activeBricks)
+void checkBallToBrickCollision(Ball& ball, Brick brick[quantY][quantX], int& activeBricks)
 {
     for (int i = 0; i < quantY; i++)
     {

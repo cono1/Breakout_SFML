@@ -57,15 +57,16 @@ void checkBallLimits(Ball& ball, int wWidth, int wHeight)
 		ball.dirX *= -1.f;
 	}
 
-	//if (ball.y >= wHeight)//
-	//{
-	//	restartBall(ball, 500, 300);
-	//}
-
 	if (ball.y + ball.sprite.getGlobalBounds().width < 0) 
 	{
 		ball.y += ball.sprite.getGlobalBounds().width;
 		ball.dirY *= -1.f;
 	}
+}
+
+void clearBall(Ball& ball)
+{
+	ball.sprite.scale(0, 0);
+	ball.sprite.setPosition(0, 0);
 }
 }

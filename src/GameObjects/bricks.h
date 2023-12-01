@@ -3,8 +3,8 @@
 
 namespace game
 {
-const int quantX = 14;
-const int quantY = 6;
+	const int quantX = 1;// 14;
+	const int quantY = 1;// 6;
 
 struct Brick
 {

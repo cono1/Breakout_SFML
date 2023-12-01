@@ -7,5 +7,5 @@
 namespace game
 {
 bool getBallToPaddCollision(Ball& ball, Paddle paddle);
-void checkBallToBrickCollision(Ball& ball, Brick brick[quantY][quantX], int activeBricks);
+void checkBallToBrickCollision(Ball& ball, Brick brick[quantY][quantX], int& activeBricks);
 }

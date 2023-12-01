@@ -18,14 +18,18 @@ namespace game
 {
 static int activeBricks = quantX * quantY;
 
-void updateLife(int& life, Ball& ball, Paddle paddle, int wHeight);
+void updateLife(int& life, Ball& ball, Paddle paddle, int wHeight, bool& win);
 
 void loop()
 {
     Ball ball;
     Brick bricks[quantY][quantX];
     Paddle paddle;
+    bool win = false;
     int life = 3;
+
+    const int windowWidth = 1024;
+    const int windowHeight = 768;
 
     sf::Text lifeText;
     sf::Font font;
@@ -36,8 +40,19 @@ void loop()
     lifeText.setCharacterSize(40);
     lifeText.setFillColor(sf::Color::White);
 
-    const int windowWidth = 1024;
-    const int windowHeight = 768;
+    sf::Text winText;
+    winText.setString("You win");
+    winText.setFont(font);
+    winText.setPosition(windowWidth / 2, windowHeight / 2);
+    winText.setCharacterSize(50);
+    winText.setFillColor(sf::Color::White);
+    sf::Text loseText;
+    loseText.setString("You lose");
+    loseText.setFont(font);
+    loseText.setPosition(windowWidth / 2, windowHeight / 2);
+    loseText.setCharacterSize(50);
+    loseText.setFillColor(sf::Color::White);
+
 
     sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "Daniela Gonzalez");
     sf::Clock clock;
@@ -52,7 +67,7 @@ void loop()
         sf::Time dt = clock.restart();
         updateBall(ball, dt, windowWidth, windowHeight);
         updatePaddle(paddle, windowWidth, dt);
-        updateLife(life, ball, paddle, windowHeight);
+        updateLife(life, ball, paddle, windowHeight, win);
         lifeText.setString("Lives: " + std::to_string(life));
 
         if (getBallToPaddCollision(ball, paddle))
@@ -63,6 +78,13 @@ void loop()
         }
 
         checkBallToBrickCollision(ball, bricks, activeBricks);
+
+        if (win || life <= 0)
+        {
+            clearBall(ball);
+            clearPaddle(paddle);
+            clearBricks(bricks);
+        }
 
         sf::Event event;
 
@@ -85,16 +107,32 @@ void loop()
         window.draw(paddle.sprite);
         window.draw(ball.sprite);
         window.draw(lifeText);
+        if (win)
+        {
+            window.draw(winText);
+        }
+        
+        if (!win && life <= 0)
+        {
+            std::cout << "perdio";
+            window.draw(loseText);
+        }
+        
         window.display();
     }
 }
 
-void updateLife(int& life, Ball& ball, Paddle paddle, int wHeight)
+void updateLife(int& life, Ball& ball, Paddle paddle, int wHeight, bool& win)
 {
     if (ball.y >= wHeight)
     {
         restartBall(ball, paddle.x, wHeight / 2);
         decreasePlayerLife(life);
+    }
+
+    if (activeBricks <= 0)
+    {
+        win = true;
     }
 }
 }
