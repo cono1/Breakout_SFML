@@ -11,28 +11,20 @@
 
 #include "collisionManager.h"
 #include "lifeManager.h"
+#include "Menu/backButton.h"
 
 extern int offset;
 
 enum CurrentScreen {PLAY, CREDITS, RULES, EXIT, MENU};
 const int quantMenuRects = 4;
 
-struct MenuRect
-{
-    int x;
-    int y;
-    float width;
-    float height;
-    float initWidth;
-    float maxWidth;
-    sf::RectangleShape rect;
-};
 
-MenuRect menuRect[quantMenuRects];
+
 namespace game
 {
-static int activeBricks = quantX * quantY;
+MenuRect menuRect[quantMenuRects];
 
+static int activeBricks = quantX * quantY;
 
 void initMenuRect();
 void printMenu(sf::RenderWindow& window, sf::Font font);
@@ -44,6 +36,7 @@ void updateLife(int& life, Ball& ball, Paddle paddle, int wHeight, bool& win);
 
 void loop()
 {
+    MenuRect pauseRect;
     Ball ball;
     Brick bricks[quantY][quantX];
     Paddle paddle;
@@ -56,6 +49,7 @@ void loop()
     CurrentScreen currentScreen = MENU;
     
     initMenuRect();
+    initBackButton(pauseRect);
 
     sf::Font font;
     if (!font.loadFromFile("res/PermanentMarker-Regular.ttf"))
@@ -148,10 +142,23 @@ void loop()
                 clearPaddle(paddle);
                 clearBricks(bricks);
             }
+
+            if (checkMenuClick(window, pauseRect, pauseRect.initWidth, pauseRect.maxWidth) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            {
+                currentScreen = MENU;
+            }
             break;
         case CREDITS:
+            if (checkMenuClick(window, pauseRect, pauseRect.initWidth, pauseRect.maxWidth) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            {
+                currentScreen = MENU;
+            }
             break;
         case RULES:
+            if (checkMenuClick(window, pauseRect, pauseRect.initWidth, pauseRect.maxWidth) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            {
+                currentScreen = MENU;
+            }
             break;
         case EXIT:
             return;
@@ -168,7 +175,8 @@ void loop()
             printMenu(window, font);
             break;
         case PLAY:
-            window.draw(creditsText);
+            drawBackButton(pauseRect, window);
+           //window.draw(creditsText);
             for (int i = 0; i < quantY; i++)
             {
                 for (int j = 0; j < quantX; j++)
@@ -193,9 +201,11 @@ void loop()
 
             break;
         case CREDITS:
+            drawBackButton(pauseRect, window);
             printCredits(font, window);
             break;
         case RULES:
+            drawBackButton(pauseRect, window);
             printHowToPlay(font, window);
             break;
         case EXIT:
@@ -290,6 +300,7 @@ bool checkMenuClick(sf::RenderWindow& window, MenuRect& menuRect, float initWidt
             menuRect.width += 5;
             menuRect.rect.setSize(sf::Vector2f(menuRect.width, menuRect.height));
         }
+        std::cout << "Boton";
         return true;
     }
     else

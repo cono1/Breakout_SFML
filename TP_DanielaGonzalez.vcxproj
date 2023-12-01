@@ -26,6 +26,7 @@
     <ClCompile Include="src\GameObjects\paddle.cpp" />
     <ClCompile Include="src\lifeManager.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Menu\backButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\collisionManager.h" />
@@ -34,6 +35,7 @@
     <ClInclude Include="src\GameObjects\bricks.h" />
     <ClInclude Include="src\GameObjects\paddle.h" />
     <ClInclude Include="src\lifeManager.h" />
+    <ClInclude Include="src\Menu\backButton.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
