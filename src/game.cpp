@@ -38,6 +38,7 @@ void initMenuRect();
 void printMenu(sf::RenderWindow& window, sf::Font font);
 bool checkMenuClick(sf::RenderWindow& window, MenuRect& menuRect, float initWidth, float maxWidth);
 void printCredits(sf::Font font, sf::RenderWindow& window);
+void printHowToPlay(sf::Font font, sf::RenderWindow& window);
 
 void updateLife(int& life, Ball& ball, Paddle paddle, int wHeight, bool& win);
 
@@ -197,6 +198,7 @@ void loop()
             printCredits(font, window);
             break;
         case RULES:
+            printHowToPlay(font, window);
             break;
         case EXIT:
             return;
@@ -209,116 +211,145 @@ void loop()
 
 }
 
-    void initMenuRect()
-    {
-        int spaceBetweenRects = 20;
-        int firstRectYPosition = 120;
+void initMenuRect()
+{
+    int spaceBetweenRects = 20;
+    int firstRectYPosition = 120;
 
-        for (int i = 0; i < quantMenuRects; i++)
-        {
-            menuRect[i].width = 160;
-            menuRect[i].height = 80;
-            menuRect[i].x = (1024 - menuRect[i].width) / 2;
-            menuRect[i].y = static_cast<int>(firstRectYPosition + (menuRect[i].height + spaceBetweenRects) * i);
-            menuRect[i].initWidth = menuRect[i].width;
-            menuRect[i].maxWidth = menuRect[i].width + 20;
-            menuRect[i].rect.setFillColor(sf::Color::Red);
-            menuRect[i].rect.setSize(sf::Vector2f(menuRect[i].width, menuRect[i].height));
-            menuRect[i].rect.setPosition(menuRect[i].x, menuRect[i].y);
-        }
+    for (int i = 0; i < quantMenuRects; i++)
+    {
+        menuRect[i].width = 160;
+        menuRect[i].height = 80;
+        menuRect[i].x = (1024 - menuRect[i].width) / 2;
+        menuRect[i].y = static_cast<int>(firstRectYPosition + (menuRect[i].height + spaceBetweenRects) * i);
+        menuRect[i].initWidth = menuRect[i].width;
+        menuRect[i].maxWidth = menuRect[i].width + 20;
+        menuRect[i].rect.setFillColor(sf::Color::Red);
+        menuRect[i].rect.setSize(sf::Vector2f(menuRect[i].width, menuRect[i].height));
+        menuRect[i].rect.setPosition(menuRect[i].x, menuRect[i].y);
     }
+}
 
-    void printMenu(sf::RenderWindow& window, sf::Font font)
-    {
-        sf::Text text1;
-        text1.setFont(font);
-        text1.setCharacterSize(40);
-        text1.setFillColor(sf::Color::White);
+void printMenu(sf::RenderWindow& window, sf::Font font)
+{
+    sf::Text text1;
+    text1.setFont(font);
+    text1.setCharacterSize(40);
+    text1.setFillColor(sf::Color::White);
             
-        for (int i = 0; i < quantMenuRects; i++)
+    for (int i = 0; i < quantMenuRects; i++)
+    {
+        window.draw(menuRect[i].rect);
+
+        //int xOffsetText = static_cast<int>(menuRect[i].x) - static_cast<int>(slGetTextWidth(word.c_str()) / 2);
+        //int yOffsetText = static_cast<int>((menuRect[i].height - fontSize) / 2);
+        if (i == PLAY)
+        {  
+            text1.setString("PLAY");
+            text1.setPosition(menuRect[i].x, menuRect[i].y);
+            window.draw(text1);
+        }   
+
+        if (i == CREDITS)
         {
-            window.draw(menuRect[i].rect);
+            text1.setString("CREDITS");
+            text1.setPosition(menuRect[i].x, menuRect[i].y);
+            window.draw(text1);
+        }
 
-            //int xOffsetText = static_cast<int>(menuRect[i].x) - static_cast<int>(slGetTextWidth(word.c_str()) / 2);
-            //int yOffsetText = static_cast<int>((menuRect[i].height - fontSize) / 2);
-            if (i == PLAY)
-            {  
-                text1.setString("PLAY");
-                text1.setPosition(menuRect[i].x, menuRect[i].y);
-                window.draw(text1);
-            }   
+        if (i == RULES)
+        {
+            text1.setString("RULES");
+            text1.setPosition(menuRect[i].x, menuRect[i].y);
+            window.draw(text1);
+        }
 
-            if (i == CREDITS)
-            {
-                text1.setString("CREDITS");
-                text1.setPosition(menuRect[i].x, menuRect[i].y);
-                window.draw(text1);
-            }
-
-            if (i == RULES)
-            {
-                text1.setString("RULES");
-                text1.setPosition(menuRect[i].x, menuRect[i].y);
-                window.draw(text1);
-            }
-
-            if (i == EXIT)
-            {
-                text1.setString("EXIT");
-                text1.setPosition(menuRect[i].x, menuRect[i].y);
-                window.draw(text1);
-            }
+        if (i == EXIT)
+        {
+            text1.setString("EXIT");
+            text1.setPosition(menuRect[i].x, menuRect[i].y);
+            window.draw(text1);
         }
     }
+}
 
-    bool checkMenuClick(sf::RenderWindow& window, MenuRect& menuRect, float initWidth, float maxWidth)
+
+bool checkMenuClick(sf::RenderWindow& window, MenuRect& menuRect, float initWidth, float maxWidth)
+{
+    int mouseX = sf::Mouse::getPosition(window).x;
+    int mouseY = sf::Mouse::getPosition(window).y;
+
+    if (menuRect.rect.getPosition().x <= mouseX &&
+        menuRect.rect.getPosition().y <= mouseY &&
+        menuRect.rect.getPosition().x + menuRect.rect.getSize().x >= mouseX &&
+        menuRect.rect.getPosition().y + menuRect.rect.getSize().y >= mouseY)
     {
-        int mouseX = sf::Mouse::getPosition(window).x;
-        int mouseY = sf::Mouse::getPosition(window).y;
-
-        if (menuRect.rect.getPosition().x <= mouseX &&
-            menuRect.rect.getPosition().y <= mouseY &&
-            menuRect.rect.getPosition().x + menuRect.rect.getSize().x >= mouseX &&
-            menuRect.rect.getPosition().y + menuRect.rect.getSize().y >= mouseY)
+        if (menuRect.width < maxWidth)
         {
-            if (menuRect.width < maxWidth)
-            {
-                menuRect.width += 5;
-                menuRect.rect.setSize(sf::Vector2f(menuRect.width, menuRect.height));
-            }
-            return true;
-        }
-        else
-        {
-            menuRect.width = initWidth;
+            menuRect.width += 5;
             menuRect.rect.setSize(sf::Vector2f(menuRect.width, menuRect.height));
-            return false;
         }
+        return true;
     }
-
-
-    void printCredits(sf::Font font, sf::RenderWindow& window)
+    else
     {
-        sf::Text credits;
-        credits.setString("Developed by: Daniela Gonzalez");
-        credits.setPosition(window.getSize().x / 3, 100);
-        credits.setFont(font);
-        credits.setScale(1,1);
-        credits.setCharacterSize(30);
-        credits.setFillColor(sf::Color::White);
-
-        window.draw(credits);
-
-        sf::Text credits2;
-        credits2.setString("Paddle texture by Grapho boy:\n https: //www.vecteezy.com/vector-art/7544384-abstract-geometric\n-gradient-color-halftone-modern-shape-background/\n/https:/ /www.vecteezy.com/members/graphoboy9158803"); 
-        credits2.setPosition(10, 220);
-        credits2.setFont(font);
-        credits.setScale(0.1, 0.1);
-        credits2.setCharacterSize(30);
-        credits2.setFillColor(sf::Color::White);
-
-        window.draw(credits2);
+        menuRect.width = initWidth;
+        menuRect.rect.setSize(sf::Vector2f(menuRect.width, menuRect.height));
+        return false;
     }
+}
+
+
+void printCredits(sf::Font font, sf::RenderWindow& window)
+{
+    sf::Text credits;
+    credits.setString("Developed by: Daniela Gonzalez");
+    credits.setPosition(window.getSize().x / 3, 100);
+    credits.setFont(font);
+    credits.setScale(1,1);
+    credits.setCharacterSize(30);
+    credits.setFillColor(sf::Color::White);
+
+    window.draw(credits);
+
+    sf::Text credits2;
+    credits2.setString("Paddle texture by Grapho boy:\n https: //www.vecteezy.com/vector-art/7544384-abstract-geometric\n-gradient-color-halftone-modern-shape-background/\n/https:/ /www.vecteezy.com/members/graphoboy9158803"); 
+    credits2.setPosition(10, 220);
+    credits2.setFont(font);
+    credits.setScale(0.1, 0.1);
+    credits2.setCharacterSize(30);
+    credits2.setFillColor(sf::Color::White);
+
+    window.draw(credits2);
+}
+
+void printHowToPlay(sf::Font font, sf::RenderWindow& window)
+{
+    sf::Text text1;
+    text1.setString("Use LEFT and RIGHT to move");
+    text1.setPosition(window.getSize().x / 3, 120);
+    text1.setFont(font);
+    text1.setCharacterSize(30);
+    text1.setFillColor(sf::Color::White);
+
+    sf::Text text2;
+    text2.setString("Break all the bircks to win");
+    text2.setPosition(window.getSize().x / 3, 220);
+    text2.setFont(font);
+    text2.setCharacterSize(30);
+    text2.setFillColor(sf::Color::White);
+
+    sf::Text text3;
+    text3.setString("If the ball falls you lose one life");
+    text3.setPosition(window.getSize().x / 3, 320);
+    text3.setFont(font);
+    text3.setCharacterSize(30);
+    text3.setFillColor(sf::Color::White);
+
+    window.draw(text1);
+    window.draw(text2);
+    window.draw(text3);
+}
 
 void updateLife(int& life, Ball& ball, Paddle paddle, int wHeight, bool& win)
 {
