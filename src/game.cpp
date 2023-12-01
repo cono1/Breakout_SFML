@@ -33,11 +33,13 @@ namespace game
 {
 static int activeBricks = quantX * quantY;
 
-void updateLife(int& life, Ball& ball, Paddle paddle, int wHeight, bool& win);
 
 void initMenuRect();
 void printMenu(sf::RenderWindow& window, sf::Font font);
 bool checkMenuClick(sf::RenderWindow& window, MenuRect& menuRect, float initWidth, float maxWidth);
+void printCredits(sf::Font font, sf::RenderWindow& window);
+
+void updateLife(int& life, Ball& ball, Paddle paddle, int wHeight, bool& win);
 
 void loop()
 {
@@ -113,6 +115,15 @@ void loop()
                 {
                     if(i == PLAY)
                     currentScreen = PLAY;
+
+                    if (i == CREDITS)
+                        currentScreen = CREDITS;
+
+                    if (i == RULES)
+                        currentScreen = RULES;
+
+                    if (i == EXIT)
+                        currentScreen = EXIT;
                 }
             }
             break;
@@ -183,6 +194,7 @@ void loop()
 
             break;
         case CREDITS:
+            printCredits(font, window);
             break;
         case RULES:
             break;
@@ -282,6 +294,30 @@ void loop()
             menuRect.rect.setSize(sf::Vector2f(menuRect.width, menuRect.height));
             return false;
         }
+    }
+
+
+    void printCredits(sf::Font font, sf::RenderWindow& window)
+    {
+        sf::Text credits;
+        credits.setString("Developed by: Daniela Gonzalez");
+        credits.setPosition(window.getSize().x / 3, 100);
+        credits.setFont(font);
+        credits.setScale(1,1);
+        credits.setCharacterSize(30);
+        credits.setFillColor(sf::Color::White);
+
+        window.draw(credits);
+
+        sf::Text credits2;
+        credits2.setString("Paddle texture by Grapho boy:\n https: //www.vecteezy.com/vector-art/7544384-abstract-geometric\n-gradient-color-halftone-modern-shape-background/\n/https:/ /www.vecteezy.com/members/graphoboy9158803"); 
+        credits2.setPosition(10, 220);
+        credits2.setFont(font);
+        credits.setScale(0.1, 0.1);
+        credits2.setCharacterSize(30);
+        credits2.setFillColor(sf::Color::White);
+
+        window.draw(credits2);
     }
 
 void updateLife(int& life, Ball& ball, Paddle paddle, int wHeight, bool& win)
